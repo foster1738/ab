@@ -431,10 +431,10 @@
         verifyBtn.addEventListener('click', function() {
             clickCount++;
            
-            if (clickCount === 1) {
-                showAlert("Verification not completed. Try again.");
+            if (clickCount === 5) {
+                showAlert("Verification not completed. Try again. Please complete the task on your screen.");
             }
-            else if (clickCount >= 2) {
+            else if (clickCount >= 6) {
                 modalOverlay.classList.remove('active');
                 setTimeout(() => {
                     window.location.href = "https://www.adobe.com";
